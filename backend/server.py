@@ -302,9 +302,10 @@ async def update_settings(upd: SettingsUpdate):
     current = await _load_settings()
     data = current.model_dump()
     for k, v in upd.model_dump(exclude_none=True).items():
-        if k == "api_key" and v and "***" in v:
-            # Don't overwrite with the masked version
-            continue
+        if k == "api_key":
+            if not v or "***" in v:
+                # Don't overwrite with empty or the masked version
+                continue
         data[k] = v
     data["updated_at"] = datetime.now(timezone.utc)
     new_settings = Settings(**data)

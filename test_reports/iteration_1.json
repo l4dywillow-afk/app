@@ -1,0 +1,35 @@
+{
+  "summary": "First end-to-end smoke test of FACTIONOPS Torn faction tracker. Backend endpoints (/, /settings GET+POST, /live, /history, /history/seed, DELETE /history) all respond correctly with mock data. API key masking works (abc***45 format). Frontend dashboard loads with 20 members per faction, header stats, countdown, source badge, timeline chart with 5 range buttons, settings sheet persists faction names, and manual refresh. One backend spec violation found: POST /settings with api_key=\"\" (empty string) overwrites existing stored key instead of preserving it.",
+  "tested_scope": ["backend", "frontend", "integration"],
+  "passed": [
+    "GET /api/ returns {service:'torn-faction-tracker',status:'ok'}",
+    "GET /api/settings returns defaults with empty api_key",
+    "POST /api/settings updates faction names and ids",
+    "POST /api/settings with real api_key stores it; GET returns masked form (abc***45)",
+    "GET /api/live returns source=='mock', mine+enemy each with 20 members, online+idle+offline==20, all required member fields present",
+    "POST /api/history/seed?hours=12 returned {seeded:144}",
+    "GET /api/history?hours=12 returns sorted HistoryPoint list with all required fields",
+    "DELETE /api/history returns {deleted:N}",
+    "Dashboard loads at / with data-testid=dashboard-root",
+    "Header shows FACTIONOPS, poll-countdown decrementing (28s->26s), source-badge='MOCK SIMULATION'",
+    "stat-mine-active, stat-enemy-active, stat-advantage, stat-window all render numeric values",
+    "faction-panel-mine and faction-panel-enemy each render 20 member-row entries",
+    "timeline-chart renders; all 5 range buttons (1h/6h/24h/72h/168h) exist and clickable",
+    "Settings sheet opens; inputs accept values; save-settings-button persists faction names (RedTeamX & BlueTeamY appear in panel headers)",
+    "reseed-button triggers reseed; refresh-button resets countdown to 29s"
+  ],
+  "failed": [
+    {
+      "area": "backend / POST /api/settings",
+      "issue": "Sending api_key=\"\" (empty string) overwrites the stored api_key rather than preserving the existing value. Spec says: 'when api_key is empty or omitted, it must preserve existing key'. Omitted works (exclude_none skips it), but explicit empty string wipes the key.",
+      "evidence": "Set api_key='abcdef12345' -> GET returns 'abc***45'. Then POST {\"api_key\":\"\"} -> GET returns api_key=''. Code path: server.py lines 304-308 — the guard only skips when value contains '***', not when it's empty.",
+      "priority": "MEDIUM"
+    }
+  ],
+  "action_items": [
+    "In /app/backend/server.py update_settings loop (lines ~304-308): also skip overwriting when k=='api_key' and v=='' (empty string) to honor the preserve-existing-key spec."
+  ],
+  "success_rate": {"backend": "90%", "frontend": "100%"},
+  "retest_needed": false,
+  "full_testing_deferred": true
+}
