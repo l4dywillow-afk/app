@@ -1,0 +1,115 @@
+{
+  "theme": "dark",
+  "persona": "Elite tactical ops command center, high-density telemetry, brutalist military HUD. Combines 'THE PERFORMANCE PRO' (precision/tactical) with 'RETRO-FUTURISM' (terminal/command center).",
+  "typography": {
+    "headings": {
+      "family": "Rajdhani, sans-serif",
+      "weight": "font-bold to font-black",
+      "style": "tracking-tight uppercase",
+      "usage": "H1/H2, Section titles, large metric callouts. Provides a sharp, squared, military-grade aesthetic."
+    },
+    "body": {
+      "family": "JetBrains Mono, monospace",
+      "weight": "font-normal",
+      "style": "tracking-tight",
+      "usage": "Dense tables, timelines, data readouts, timestamps, logs. Reinforces the tactical/terminal vibe."
+    },
+    "labels": {
+      "family": "JetBrains Mono, monospace",
+      "weight": "font-medium",
+      "style": "uppercase tracking-[0.2em] text-xs",
+      "usage": "Overlines, column headers, axis labels, small badge text."
+    }
+  },
+  "colors": {
+    "background": {
+      "base": "#050505",
+      "panel": "#0A0A0A",
+      "surface": "#121212"
+    },
+    "foreground": {
+      "primary": "#E0E6ED",
+      "secondary": "#8A94A6",
+      "muted": "#4B5563"
+    },
+    "tactical_accents": {
+      "safe_online": "#00FF66",
+      "idle_warning": "#FFB300",
+      "offline_critical": "#FF3333",
+      "ghost_neutral": "#8C8C8C",
+      "hud_cyan": "#00E5FF"
+    },
+    "borders": {
+      "default": "#2F3336",
+      "active": "#1A3B35"
+    }
+  },
+  "visual_enhancers": {
+    "surfaces": "Grid Borders strategy. Flat backgrounds with 1px solid borders. No rounded corners (`rounded-none` or `rounded-sm` max).",
+    "glow_effects": "Use subtle drop shadows on active indicators to simulate LED glow (e.g., `drop-shadow-[0_0_8px_rgba(0,255,102,0.5)]` for online status).",
+    "noise": "Apply a very subtle CSS grain or scanline effect as a background layer, but do not obscure text clarity.",
+    "hover_states": "Hard, instant transitions on hover. Backgrounds flip to tactical accents (e.g., hover on a row turns background very dark green or cyan tint)."
+  },
+  "grids_and_layouts": {
+    "dashboard_container": "High Density Grid (Bento style). Minimal gaps (`gap-2` to `gap-4`). Use full height. No empty margins.",
+    "faction_grid": "Split view (My Faction vs Enemy). 2 columns on desktop (`grid-cols-2`).",
+    "spacing": "Dense internal padding for tables/lists (`p-2` to `p-4`), but generous spacing around major sections (`p-6` to `p-8`).",
+    "alignment": "Strict left alignment for data. Right alignment for numerical metrics or timestamps to ensure scanning."
+  },
+  "components": {
+    "settings_panel": {
+      "style": "Slide-over or collapsible top bar. Input fields with no border-radius, pure black background, 1px dark gray border, focus state uses `ring-1 ring-[#00E5FF]`."
+    },
+    "live_faction_grid": {
+      "style": "Dense tabular or compact card layout. Use alternating row colors (`bg-black` vs `bg-[#0A0A0A]`). Status state (Okay/Hospital/Jail) must be color-coded text or icon."
+    },
+    "faction_summary_cards": {
+      "style": "Top-level KPI widgets. Large `Rajdhani` numbers. Use HUD cyan or Radar green for positive metrics, Alert red for hospital counts."
+    },
+    "timeline_chart": {
+      "style": "Recharts wrapper. Transparent background, sharp right-angled lines (step chart or linear), no bezier curves to fit the military theme. Grid lines should be very faint green/cyan or dark gray."
+    },
+    "live_polling_indicator": {
+      "style": "Pulsing/blinking dot using CSS animation (`animate-pulse`), paired with a monospaced countdown timer."
+    }
+  },
+  "motion_and_interactions": {
+    "micro_interactions": "Instant or very fast transitions (`duration-150`). No slow, floaty animations. It must feel like an immediate command center response.",
+    "polling_refresh": "A brief flash or scanline effect over the grid when data updates."
+  },
+  "accessibility": {
+    "contrast": "Ensure all tactical colors (cyan, green, red, yellow) pass WCAG AA against the `#050505` background.",
+    "focus": "High-contrast square focus rings (`ring-2 ring-hud_cyan ring-offset-2 ring-offset-background`).",
+    "test_ids": "Every button, input, row, and tab MUST have a `data-testid` (e.g., `data-testid=\"faction-member-row\"`)."
+  },
+  "media_and_icons": {
+    "icons_library": "@phosphor-icons/react",
+    "icons_style": "Duotone or Regular weight. Sharp, technical icons (Crosshairs, Heartbeat/ECG, Shield, Warning, Clock).",
+    "image_urls": []
+  },
+  "instructions_to_main_agent": [
+    "Install `lucide-react` or `@phosphor-icons/react` if not present. Use Phosphor for technical, dense dashboards if possible, otherwise Lucide with sharp strokes.",
+    "Install Google Fonts for Rajdhani and JetBrains Mono.",
+    "Override default Shadcn border radiuses to 0 or 2px max (`--radius: 0rem;`).",
+    "Update tailwind.config.js with the custom tactical colors.",
+    "Build the dashboard using a dark mode only. Do not add a light mode switch.",
+    "Implement the live polling countdown as a React hook that resets every 30 seconds (mock data for now).",
+    "Use Recharts for the Timeline and Activity Heatmap, styled with sharp, military-grade lines and no smoothing.",
+    "DO NOT use generic centered layouts or default Vercel-style aesthetics. Lean heavily into the dark, technical HUD vibe."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this: make creative, distinctive frontends that surprise and delight.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "You MUST NOT apply universal transition. Eg: `transition: all`. This results in breaking transforms. Always add transitions for specific interactive elements.",
+    "You MUST NOT center align the app container, ie do not add `.App { text-align: center; }` in the css file.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style. (For this specific app, sharp edges).",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap (but follow dense rules for data grids).",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+    "Use `sonner` for toasts if needed.",
+    "All interactive and key informational elements MUST include a `data-testid` attribute to facilitate robust automated testing."
+  ]
+}

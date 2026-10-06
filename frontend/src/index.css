@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    color-scheme: dark;
+}
+
+html,
+body,
+#root {
+    background: #050505;
+    color: #e0e6ed;
+    min-height: 100vh;
+}
+
+body {
+    margin: 0;
+    font-family:
+        "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-feature-settings:
+        "ss01" on,
+        "cv01" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+}
+
+/* Scanline / grain overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.012) 0px,
+            rgba(255, 255, 255, 0.012) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+        radial-gradient(
+            ellipse at top,
+            rgba(0, 229, 255, 0.04),
+            transparent 60%
+        );
+    mix-blend-mode: screen;
+}
+
+.font-display {
+    font-family: "Rajdhani", sans-serif;
+    letter-spacing: 0.02em;
+}
+
+.font-mono {
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* Tactical scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: #2f3336;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #00e5ff;
+}
+
+/* Hard focus ring */
+*:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #050505, 0 0 0 4px #00e5ff;
+}
+
+@layer base {
+    :root {
+        --background: 0 0% 2%;
+        --foreground: 213 20% 90%;
+        --card: 0 0% 4%;
+        --card-foreground: 213 20% 90%;
+        --popover: 0 0% 4%;
+        --popover-foreground: 213 20% 90%;
+        --primary: 186 100% 50%;
+        --primary-foreground: 0 0% 4%;
+        --secondary: 0 0% 7%;
+        --secondary-foreground: 213 20% 90%;
+        --muted: 0 0% 10%;
+        --muted-foreground: 213 10% 55%;
+        --accent: 186 100% 50%;
+        --accent-foreground: 0 0% 4%;
+        --destructive: 0 100% 60%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 210 6% 20%;
+        --input: 210 6% 20%;
+        --ring: 186 100% 50%;
+        --radius: 0rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+.tactical-glow-green {
+    filter: drop-shadow(0 0 6px rgba(0, 255, 102, 0.5));
+}
+.tactical-glow-cyan {
+    filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.55));
+}
+.tactical-glow-red {
+    filter: drop-shadow(0 0 6px rgba(255, 51, 51, 0.5));
+}
+.tactical-glow-amber {
+    filter: drop-shadow(0 0 6px rgba(255, 179, 0, 0.5));
+}
+
+.blink {
+    animation: blink 1.6s ease-in-out infinite;
+}
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
+}
+
+.scan-flash {
+    animation: scan-flash 0.7s ease-out;
+}
+@keyframes scan-flash {
+    0% {
+        background-color: rgba(0, 229, 255, 0.08);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+/* Grid line pattern for backgrounds */
+.hud-grid {
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(0, 229, 255, 0.04) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(0, 229, 255, 0.04) 1px,
+            transparent 1px
+        );
+    background-size: 32px 32px;
+}
